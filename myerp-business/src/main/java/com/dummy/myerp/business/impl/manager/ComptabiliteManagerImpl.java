@@ -1,14 +1,5 @@
 package com.dummy.myerp.business.impl.manager;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.transaction.TransactionStatus;
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
@@ -17,6 +8,15 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.transaction.TransactionStatus;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -26,6 +26,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
     // ==================== Attributs ====================
 
+    private EcritureComptable ecritureComptable = new EcritureComptable();
 
     // ==================== Constructeurs ====================
     /**
@@ -33,6 +34,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     public ComptabiliteManagerImpl() {
     }
+
+
 
 
     // ==================== Getters/Setters ====================

@@ -9,7 +9,7 @@
     <!-- ===== Maven ===== -->
     <groupId>com.dummy.myerp</groupId>
     <artifactId>myerp</artifactId>
-    <version>1.x.x-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- ===== General information ===== -->
@@ -152,12 +152,14 @@
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
+
             <!-- Commons Logging Bridge -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-jcl</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
+
             <!-- Log4j 2 SLF4J Binding -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -247,6 +249,13 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.16.0</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
