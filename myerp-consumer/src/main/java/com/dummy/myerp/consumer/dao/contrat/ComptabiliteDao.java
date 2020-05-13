@@ -1,11 +1,12 @@
 package com.dummy.myerp.consumer.dao.contrat;
 
-import java.util.List;
-
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
+
+import java.util.List;
 
 
 /**
@@ -80,4 +81,24 @@ public interface ComptabiliteDao {
      * @param pId l'id de l'écriture
      */
     void deleteEcritureComptable(Integer pId);
+
+    /**
+     *
+     * @param pJournalCode
+     * @param pAnnee
+     * @return
+     */
+    SequenceEcritureComptable getSequenceEcritureComptable(String pJournalCode, Integer pAnnee);
+
+    /**
+     *
+     * @param sequenceEcritureComptable
+     */
+    void updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
+
+    /**
+     *
+     * @param sequenceEcritureComptable
+     */
+    void insertSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
 }
