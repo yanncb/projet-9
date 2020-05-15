@@ -103,11 +103,11 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param sequenceEcritureComptable
      * @return
      */
-    public String setReference(SequenceEcritureComptable sequenceEcritureComptable){
+    public String setReference(SequenceEcritureComptable sequenceEcritureComptable) {
         String reference = sequenceEcritureComptable.getJournalComptable().getCode() + "-";
-        reference += sequenceEcritureComptable.getAnnee()  + "/";
-        reference +=String.format("%05d", sequenceEcritureComptable.getDerniereValeur() );
-        return  reference;
+        reference += sequenceEcritureComptable.getAnnee() + "/";
+        reference += String.format("%05d", sequenceEcritureComptable.getDerniereValeur());
+        return reference;
     }
 
 
@@ -170,21 +170,29 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
     }
 
-    // TODO ok implem et test ===== RG_Compta_5 : Format et contenu de la référence
+    // TODO ok Faire une exception et test ===== RG_Compta_5 : Format et contenu de la référence
     // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
 
-    public boolean RG_Compta_5(EcritureComptable ecritureComptable){
+    public boolean RG_Compta_5(EcritureComptable ecritureComptable) throws FunctionalException {
+
         Date date = ecritureComptable.getDate();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        boolean bYear = String.valueOf( calendar.get(Calendar.YEAR ) ).equals(ecritureComptable.getReference().substring(3,7) );
+        boolean bYear = String.valueOf(calendar.get(Calendar.YEAR)).equals(ecritureComptable.getReference().substring(3, 7));
 
-        boolean bRegEx = Pattern.matches("[A-Z]{2}-[0-9]{4}/[0-9]{5}", ecritureComptable.getReference() ) ;
+        boolean bRegEx = Pattern.matches("[A-Z]{2}-[0-9]{4}/[0-9]{5}", ecritureComptable.getReference());
 
-        boolean bCodeJournal = ecritureComptable.getJournal().getCode().equals( ecritureComptable.getReference().substring(0,2) );
+        boolean bCodeJournal = ecritureComptable.getJournal().getCode().equals(ecritureComptable.getReference().substring(0, 2));
 
-        return  bYear && bRegEx && bCodeJournal ;
+
+        if (bYear && bRegEx && bCodeJournal) {
+            return true;
+
+        } else {
+            throw new FunctionalException("La RG 5 n'est pas respectée.");
+        }
+
 
     }
 

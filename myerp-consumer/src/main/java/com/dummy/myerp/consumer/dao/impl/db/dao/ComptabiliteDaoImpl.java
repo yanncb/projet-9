@@ -92,22 +92,22 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
     //////////////////////////////////////////////////////////////////
     @Override
-    public SequenceEcritureComptable getSequenceEcritureComptable(String pJournalCode, Integer pAnnee) {
+    public SequenceEcritureComptable getSequenceEcritureComptable(String pJournalCode, Integer pAnnee){
 
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
-    MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
         vSqlParams.addValue("journal_code", pJournalCode);
         vSqlParams.addValue("annee", pAnnee);
 
-    SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
-    SequenceEcritureComptable vBean;
+        SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
+        SequenceEcritureComptable vBean;
         try {
-        vBean = vJdbcTemplate.queryForObject(SQLgetSequenceEcritureComptable, vSqlParams, vRM);
-    } catch (EmptyResultDataAccessException vEx) {
-        return null;
-    }
+            vBean = vJdbcTemplate.queryForObject(SQLgetSequenceEcritureComptable, vSqlParams, vRM);
+        } catch (EmptyResultDataAccessException vEx) {
+            return null;
+        }
         return vBean;
-}
+    }
 
 
     @Override

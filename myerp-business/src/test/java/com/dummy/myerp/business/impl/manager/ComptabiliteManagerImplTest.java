@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ComptabiliteManagerImplTest {
@@ -64,7 +65,7 @@ public class ComptabiliteManagerImplTest {
 
     }
 
-    @Test(expected = FunctionalException.class)
+    @Test (expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG3() throws Exception {
         EcritureComptable vEcritureComptable = new EcritureComptable();
 
@@ -96,37 +97,50 @@ public class ComptabiliteManagerImplTest {
 
 
         vEcritureComptable.setReference("AC-2016/00001");
-        manager.checkEcritureComptable(vEcritureComptable);
+        manager.RG_Compta_5(vEcritureComptable);
     }
 
-    @Test (expected = FunctionalException.class)
+    @Test
     public void CheckRG_Compta_5() throws FunctionalException {
 
         // GIVEN
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournal(vEcriture.getJournal());
-        vEcriture.setReference("AC-2020/00001");
-        vEcriture.setDate( new Date() );
+        EcritureComptable vEcritureComptable = new EcritureComptable();
+
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal(123),
+                null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, null,
+                new BigDecimal(123)));
+        vEcritureComptable.setReference("AC-2020/00001");
 
         //WHEN
-        manager.checkEcritureComptable( vEcriture );
+        manager.RG_Compta_5(vEcritureComptable);
 
         //THEN
-        // expected FunctionalException (voir conf du test)
+        //J'attends aucune exception.
 
     }
 
 //TODO  A FINIR !!
     @Test
     public void addReference() {
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(JournalComptable,2020,1);
 
+        // GIVEN
+        EcritureComptable vEcriture = new EcritureComptable();
+        vEcriture.setJournal(new JournalComptable("AC", "Achat"));
+        vEcriture.setLibelle("Libelle");
+        vEcriture.setDate( new Date() );
 
-        assertThat(sequenceEcritureComptable.getAnnee()).isEqualTo(2020);
-        assertThat(sequenceEcritureComptable.getDerniereValeur()).isEqualTo(1);
+        //WHEN
+        manager.addReference(vEcriture);
 
-//        Assert.assertEquals("AC-2020/00001",manager.setReference(sequenceEcritureComptable));
-//        assertThat(manager.setReference(sequenceEcritureComptable)).isEqualTo("AC-2020/00001");
+        //THEN
+        assertThat(vEcriture.getReference()).isEqualTo("AC-2020/00001");
+
     }
 
 

@@ -14,6 +14,7 @@
         <property name="SQLgetSequenceEcritureComptable">
             <value>
                 SELECT * FROM myerp.sequence_ecriture_comptable
+                WHERE journal_code = :journal_code AND annee = :annee
             </value>
         </property>
 
