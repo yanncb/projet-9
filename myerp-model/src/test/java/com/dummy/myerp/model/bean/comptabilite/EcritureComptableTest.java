@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class EcritureComptableTest {
 
@@ -30,8 +32,8 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(3, null, "301"));
         vEcriture.getListLigneEcriture().add(this.createLigne(4, "40", "7"));
 
-        Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
-
+//        Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
+        assertThat(vEcriture.isEquilibree()).isTrue();
     }
 
     @Test
@@ -49,7 +51,8 @@ public class EcritureComptableTest {
         boolean isEquilibree = vEcriture.isEquilibree();
 
         // THEN
-        Assert.assertFalse(vEcriture.toString(), isEquilibree);
+//        Assert.assertFalse(vEcriture.toString(), isEquilibree);
+        assertThat(vEcriture.isEquilibree()).isFalse();
     }
 
     @Test

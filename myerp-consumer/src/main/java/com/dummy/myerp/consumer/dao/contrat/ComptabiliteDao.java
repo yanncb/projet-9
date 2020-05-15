@@ -96,6 +96,7 @@ public interface ComptabiliteDao {
      */
     void updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
 
+    void deleteSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
     /**
      *
      * @param sequenceEcritureComptable
