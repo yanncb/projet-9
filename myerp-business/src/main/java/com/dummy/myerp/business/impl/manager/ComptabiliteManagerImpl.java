@@ -26,7 +26,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
     // ==================== Attributs ====================
 
-    private EcritureComptable ecritureComptable = new EcritureComptable();
 
 
     // ==================== Getters/Setters ====================
@@ -92,23 +91,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             pSeq.setDerniereValeur(pSeq.getDerniereValeur() + 1);
             updateSequenceEcritureComptable(pSeq);
         } else {
-            pSeq = new SequenceEcritureComptable(ecritureComptable.getJournal(), annee, 1);
+            pSeq = new SequenceEcritureComptable(pEcritureComptable.getJournal(), annee, 1);
             insertSequenceEcritureComptable(pSeq);
         }
 
-        ecritureComptable.setReference(String.valueOf(pSeq));
+        pEcritureComptable.setReference(pSeq.getReference());
     }
 
-    /**
-     * @param sequenceEcritureComptable
-     * @return
-     */
-    public String setReference(SequenceEcritureComptable sequenceEcritureComptable) {
-        String reference = sequenceEcritureComptable.getJournalComptable().getCode() + "-";
-        reference += sequenceEcritureComptable.getAnnee() + "/";
-        reference += String.format("%05d", sequenceEcritureComptable.getDerniereValeur());
-        return reference;
-    }
 
 
     /**

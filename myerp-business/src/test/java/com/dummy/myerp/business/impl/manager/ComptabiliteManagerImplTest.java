@@ -1,5 +1,7 @@
 package com.dummy.myerp.business.impl.manager;
 
+import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoTesting;
+import com.dummy.myerp.consumer.dao.impl.db.dao.DaoProxyTesting;
 import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import org.junit.Test;
@@ -13,7 +15,6 @@ public class ComptabiliteManagerImplTest {
 
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
-    private JournalComptable JournalComptable;
 
     @Test
     public void checkEcritureComptableUnit() throws Exception {
@@ -65,7 +66,7 @@ public class ComptabiliteManagerImplTest {
 
     }
 
-    @Test (expected = FunctionalException.class)
+    @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG3() throws Exception {
         EcritureComptable vEcritureComptable = new EcritureComptable();
 
@@ -125,15 +126,18 @@ public class ComptabiliteManagerImplTest {
 
     }
 
-//TODO  A FINIR !!
+    //TODO  A FINIR !!
     @Test
-    public void addReference() {
+    public void addReferenceSansEcritureCompatable() {
+        ComptabiliteDaoTesting comptabiliteDaoTesting = new ComptabiliteDaoTesting();
+        comptabiliteDaoTesting.setSequenceEcritureComptable(null);
+        manager.configure(null, new DaoProxyTesting(comptabiliteDaoTesting), null);
 
         // GIVEN
         EcritureComptable vEcriture = new EcritureComptable();
         vEcriture.setJournal(new JournalComptable("AC", "Achat"));
         vEcriture.setLibelle("Libelle");
-        vEcriture.setDate( new Date() );
+        vEcriture.setDate(new Date());
 
         //WHEN
         manager.addReference(vEcriture);
@@ -143,6 +147,55 @@ public class ComptabiliteManagerImplTest {
 
     }
 
+    @Test
+    public void addReferenceAvecEcritureCompatable() {
+        // GIVEN
+        EcritureComptable vEcriture = new EcritureComptable();
+        JournalComptable journalComptable = new JournalComptable("AC", "Achat");
+        vEcriture.setJournal(journalComptable);
+        vEcriture.setLibelle("Libelle");
+        vEcriture.setDate(new Date());
+
+        SequenceEcritureComptable sequenceEcritureCompatbleIntial = new SequenceEcritureComptable();
+        sequenceEcritureCompatbleIntial.setJournalComptable(journalComptable);
+        sequenceEcritureCompatbleIntial.setAnnee(2020);
+        sequenceEcritureCompatbleIntial.setDerniereValeur(999);
+
+        ComptabiliteDaoTesting comptabiliteDaoTesting = new ComptabiliteDaoTesting();
+        comptabiliteDaoTesting.setSequenceEcritureComptable(sequenceEcritureCompatbleIntial);
+        manager.configure(null, new DaoProxyTesting(comptabiliteDaoTesting), null);
+
+        //WHEN
+        manager.addReference(vEcriture);
+
+        //THEN
+        assertThat(vEcriture.getReference()).isEqualTo("AC-2020/01000");
+
+    }
+
+//
+//    @Test
+//    public void setReference() {
+//
+//        //GIVEN
+//        //WHEN
+//        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(new JournalComptable("AC", "Achat"), 2020, 1);
+//
+//
+//        //THEN
+//        Assert.assertEquals("AC-2020/00001", manager.computeReference(sequenceEcritureComptable));
+//        Assert.assertNotEquals("AL-2020/0001", manager.computeReference(sequenceEcritureComptable));
+//
+//
+//        sequenceEcritureComptable = new SequenceEcritureComptable(new JournalComptable("AC", "Achat"), 2016, 1);
+//
+//        Assert.assertEquals("AC-2016/00001", manager.computeReference(sequenceEcritureComptable));
+//        Assert.assertNotEquals("AV-2016/00001", manager.computeReference(sequenceEcritureComptable));
+//    }
+
+    @Test(expected = FunctionalException.class)
+    public void checkEcritureComptable() {
 
 
+    }
 }

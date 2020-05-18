@@ -62,6 +62,18 @@ public class SequenceEcritureComptable {
     }
 
     // ==================== Méthodes ====================
+
+
+    /**
+     * @return
+     */
+    public String getReference() {
+        String reference = getJournalComptable().getCode() + "-";
+        reference += getAnnee() + "/";
+        reference += String.format("%05d", getDerniereValeur());
+        return reference;
+    }
+
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
