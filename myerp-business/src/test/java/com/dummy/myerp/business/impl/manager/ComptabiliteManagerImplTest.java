@@ -7,7 +7,7 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,13 +15,15 @@ public class ComptabiliteManagerImplTest {
 
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
+    private static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     @Test
     public void checkEcritureComptableUnit() throws Exception {
         EcritureComptable vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
         vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setReference("AC-2020/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, new BigDecimal(123),
                 null));
@@ -50,7 +52,7 @@ public class ComptabiliteManagerImplTest {
         // GIVEN
         EcritureComptable vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
         vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, null,
@@ -59,35 +61,54 @@ public class ComptabiliteManagerImplTest {
                 null, null,
                 new BigDecimal(1234)));
         // WHEN
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+        try {
 
-        // THEN
-        // expected FunctionalException (voir conf du test)
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        } catch (FunctionalException ex) {
+            // THEN
+            // expected FunctionalException (voir conf du test)
+
+            assertThat(ex.getMessage()).isEqualTo("L'écriture comptable n'est pas équilibrée.");
+            throw ex;
+        }
+
 
     }
 
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG3() throws Exception {
+        //GIVEN
         EcritureComptable vEcritureComptable = new EcritureComptable();
 
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
         vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setReference("AC-2020/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
+                null, null,
                 null));
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
+                null, null,
                 null));
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+
+        try {
+            //WHEN
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        } catch (FunctionalException ex) {
+            // THEN
+            // expected FunctionalException (voir conf du test)
+
+            assertThat(ex.getMessage()).isEqualTo("L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
+            throw ex;
+        }
     }
 
-    @Test(expected = FunctionalException.class)
+    @Test (expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG5() throws Exception {
         EcritureComptable vEcritureComptable = new EcritureComptable();
 
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2017"));
         vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, new BigDecimal(10),
@@ -97,18 +118,29 @@ public class ComptabiliteManagerImplTest {
                 new BigDecimal(10)));
 
 
-        vEcritureComptable.setReference("AC-2016/00001");
-        manager.RG_Compta_5(vEcritureComptable);
+        vEcritureComptable.setReference("XX-2012/00001");
+
+        try {
+
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        } catch (FunctionalException ex) {
+            // THEN
+            // expected FunctionalException (voir conf du test)
+
+            assertThat(ex.getMessage()).isEqualTo("La référence de l'écriture comptable n'est pas coherente avec l'année de l'écriture et/ou le code du journal.");
+            throw ex;
+
+        }
     }
 
     @Test
-    public void CheckRG_Compta_5() throws FunctionalException {
+    public void CheckRG_Compta_5() throws Exception {
 
         // GIVEN
         EcritureComptable vEcritureComptable = new EcritureComptable();
 
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
         vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, new BigDecimal(123),
@@ -119,16 +151,15 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.setReference("AC-2020/00001");
 
         //WHEN
-        manager.RG_Compta_5(vEcritureComptable);
+        manager.checkEcritureComptableUnit(vEcritureComptable);
 
         //THEN
         //J'attends aucune exception.
 
     }
 
-    //TODO  A FINIR !!
     @Test
-    public void addReferenceSansEcritureCompatable() {
+    public void addReferenceSansEcritureCompatable() throws Exception {
         ComptabiliteDaoTesting comptabiliteDaoTesting = new ComptabiliteDaoTesting();
         comptabiliteDaoTesting.setSequenceEcritureComptable(null);
         manager.configure(null, new DaoProxyTesting(comptabiliteDaoTesting), null);
@@ -137,7 +168,7 @@ public class ComptabiliteManagerImplTest {
         EcritureComptable vEcriture = new EcritureComptable();
         vEcriture.setJournal(new JournalComptable("AC", "Achat"));
         vEcriture.setLibelle("Libelle");
-        vEcriture.setDate(new Date());
+        vEcriture.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
 
         //WHEN
         manager.addReference(vEcriture);
@@ -148,13 +179,13 @@ public class ComptabiliteManagerImplTest {
     }
 
     @Test
-    public void addReferenceAvecEcritureCompatable() {
+    public void addReferenceAvecEcritureCompatable() throws Exception {
         // GIVEN
         EcritureComptable vEcriture = new EcritureComptable();
         JournalComptable journalComptable = new JournalComptable("AC", "Achat");
         vEcriture.setJournal(journalComptable);
         vEcriture.setLibelle("Libelle");
-        vEcriture.setDate(new Date());
+        vEcriture.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
 
         SequenceEcritureComptable sequenceEcritureCompatbleIntial = new SequenceEcritureComptable();
         sequenceEcritureCompatbleIntial.setJournalComptable(journalComptable);
@@ -173,28 +204,27 @@ public class ComptabiliteManagerImplTest {
 
     }
 
-//
-//    @Test
-//    public void setReference() {
-//
-//        //GIVEN
-//        //WHEN
-//        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(new JournalComptable("AC", "Achat"), 2020, 1);
-//
-//
-//        //THEN
-//        Assert.assertEquals("AC-2020/00001", manager.computeReference(sequenceEcritureComptable));
-//        Assert.assertNotEquals("AL-2020/0001", manager.computeReference(sequenceEcritureComptable));
-//
-//
-//        sequenceEcritureComptable = new SequenceEcritureComptable(new JournalComptable("AC", "Achat"), 2016, 1);
-//
-//        Assert.assertEquals("AC-2016/00001", manager.computeReference(sequenceEcritureComptable));
-//        Assert.assertNotEquals("AV-2016/00001", manager.computeReference(sequenceEcritureComptable));
-//    }
-
     @Test(expected = FunctionalException.class)
-    public void checkEcritureComptable() {
+    public void checkEcritureComptableContext() throws Exception {
+
+        //GIVEN
+        EcritureComptable vEcriture = new EcritureComptable();
+        JournalComptable journalComptable = new JournalComptable("AC", "Achat");
+        vEcriture.setJournal(journalComptable);
+        vEcriture.setLibelle("Libelle");
+        vEcriture.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
+
+        //WHEN
+        try {
+
+            manager.checkEcritureComptableContext(vEcriture);
+        } catch (FunctionalException ex) {
+            // THEN
+            // expected FunctionalException (voir conf du test)
+
+            assertThat(ex.getMessage()).isEqualTo("Une autre écriture comptable existe déjà avec la même référence.");
+            throw ex;
+        }
 
 
     }

@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 
 /**
@@ -25,7 +24,6 @@ import java.util.regex.Pattern;
 public class ComptabiliteManagerImpl extends AbstractBusinessManager implements ComptabiliteManager {
 
     // ==================== Attributs ====================
-
 
 
     // ==================== Getters/Setters ====================
@@ -63,10 +61,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
-    // TODO à tester
     @Override
     public synchronized void addReference(EcritureComptable pEcritureComptable) {
-        // TODO deja implem !!
         // Bien se réferer à la JavaDoc de cette méthode !
         /* Le principe :
                 1.  Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
@@ -99,7 +95,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
 
-
     /**
      * {@inheritDoc}
      */
@@ -118,7 +113,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable -
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
-    // TODO tests à compléter
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
@@ -155,33 +149,28 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             throw new FunctionalException(
                     "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
         }
-
+        // Verification de la RG5
+        checkReferenceIntegrity(pEcritureComptable);
 
     }
 
-    // TODO ok Faire une exception et test ===== RG_Compta_5 : Format et contenu de la référence
-    // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
-
-    public boolean RG_Compta_5(EcritureComptable ecritureComptable) throws FunctionalException {
+    /**
+     * Verifie la RG compta 5. Compare la date d'ecriture et la date contenue dans la reference. Compare le code journal et le code contenue dans la reference.
+     * @param ecritureComptable
+     * @throws FunctionalException si les comparaisons sont pas egales.
+     */
+    private void checkReferenceIntegrity(EcritureComptable ecritureComptable) throws FunctionalException {
 
         Date date = ecritureComptable.getDate();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
         boolean bYear = String.valueOf(calendar.get(Calendar.YEAR)).equals(ecritureComptable.getReference().substring(3, 7));
-
-        boolean bRegEx = Pattern.matches("[A-Z]{2}-[0-9]{4}/[0-9]{5}", ecritureComptable.getReference());
-
         boolean bCodeJournal = ecritureComptable.getJournal().getCode().equals(ecritureComptable.getReference().substring(0, 2));
 
-
-        if (bYear && bRegEx && bCodeJournal) {
-            return true;
-
-        } else {
-            throw new FunctionalException("La RG 5 n'est pas respectée.");
+        if (!bYear || !bCodeJournal) {
+            throw new FunctionalException("La référence de l'écriture comptable n'est pas coherente avec l'année de l'écriture et/ou le code du journal.");
         }
-
 
     }
 
@@ -192,6 +181,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable -
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
+    //TODO à tester !
     protected void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException {
         // ===== RG_Compta_6 : La référence d'une écriture comptable doit être unique
         if (StringUtils.isNoneEmpty(pEcritureComptable.getReference())) {
