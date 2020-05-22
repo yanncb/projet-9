@@ -23,6 +23,7 @@ import java.util.Set;
  */
 public class ComptabiliteManagerImpl extends AbstractBusinessManager implements ComptabiliteManager {
 
+
     // ==================== Attributs ====================
 
 

@@ -44,11 +44,6 @@
     </bean>
 
 
-    <!-- ==================== Databases ==================== -->
-    <!--    <bean id="dataSourceMYERP" class="com.dummy.myerp.technical.util.spring.NullFactoryBean">-->
-    <!--        <constructor-arg value="javax.sql.DataSource"/>-->
-    <!--    </bean>-->
-    <!-- ==================== External datasource properties file ==================== -->
     <context:property-placeholder location="classpath:com/dummy/myerp/consumer/database.properties"/>
 
     <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -57,7 +52,13 @@
         <property name="username" value="${myerp.datasource.username}"/>
         <property name="password" value="${myerp.datasource.password}"/>
     </bean>
-
+<!--    <bean id="dataSourceMYERP"-->
+<!--          class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--        <property name="driverClassName" value="org.postgresql.Driver" />-->
+<!--        <property name="url" value="jdbc:postgresql://localhost:5433/db_myerp" />-->
+<!--        <property name="username" value="usr_myerp" />-->
+<!--        <property name="password" value="myerp" />-->
+<!--    </bean>-->
 
     <!-- ========== SQL ========== -->
     <import resource="sqlContext.xml"/>

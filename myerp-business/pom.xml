@@ -37,8 +37,8 @@
     <!-- Properties -->
     <!-- =============================================================== -->
     <properties>
+        <dep.junit.version>5.6.2</dep.junit.version>
     </properties>
-
 
     <!-- =============================================================== -->
     <!-- Dependencies -->
@@ -102,12 +102,14 @@
             <version>0.8.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.3.0</version>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.3.3</version>
             <scope>test</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
         <dependency>
             <groupId>org.assertj</groupId>
@@ -135,7 +137,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>${dep.junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${dep.junit.version}</version>
             <scope>test</scope>
         </dependency>
 
