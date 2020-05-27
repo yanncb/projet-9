@@ -7,9 +7,13 @@ import com.dummy.myerp.consumer.dao.impl.db.dao.DaoProxyTesting;
 import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,9 +30,25 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ComptabiliteManagerImplTest {
 
+    /**
+     * Logger
+     **/
+    private static Logger logger;
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
     private static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+
+    @BeforeClass
+    public static void  setUp() throws Exception {
+        logger = LoggerFactory.getLogger(ComptabiliteManagerImplTest.class);
+        String nomDeMaClasse = ComptabiliteManagerImpl.class.getSimpleName();
+        logger.info(() -> "Début des tests unitaires pour la classe " + ComptabiliteManagerImpl.class.getSimpleName() + ".");
+
+    }
+    @AfterClass
+    public static void tearDown() throws Exception {
+        logger.info(() ->"Fin des tests unitaires.");
+    }
 
     @Test
     public void checkEcritureComptableUnit() throws Exception {
@@ -57,6 +77,7 @@ public class ComptabiliteManagerImplTest {
 
         // THEN
         // expected FunctionalException (voir conf du test)
+        
     }
 
     @Test(expected = FunctionalException.class)
@@ -81,7 +102,7 @@ public class ComptabiliteManagerImplTest {
             // THEN
             // expected FunctionalException (voir conf du test)
 
-            assertThat(ex.getMessage()).isEqualTo("L'écriture comptable n'est pas équilibrée.");
+            assertThat(ex.getMessage()).isEqualTo("L'écriture comptable n'est pas équilibrée.RG2");
             throw ex;
         }
 
@@ -111,7 +132,7 @@ public class ComptabiliteManagerImplTest {
             // THEN
             // expected FunctionalException (voir conf du test)
 
-            assertThat(ex.getMessage()).isEqualTo("L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
+            assertThat(ex.getMessage()).isEqualTo("L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.RG3");
             throw ex;
         }
     }
@@ -140,7 +161,7 @@ public class ComptabiliteManagerImplTest {
             // THEN
             // expected FunctionalException (voir conf du test)
 
-            assertThat(ex.getMessage()).isEqualTo("La référence de l'écriture comptable n'est pas coherente avec l'année de l'écriture et/ou le code du journal.");
+            assertThat(ex.getMessage()).isEqualTo("La référence de l'écriture comptable n'est pas coherente avec l'année de l'écriture et/ou le code du journal.RG5");
             throw ex;
 
         }
@@ -188,7 +209,6 @@ public class ComptabiliteManagerImplTest {
 
         //THEN
         assertThat(vEcriture.getReference()).isEqualTo("AC-2020/00001");
-
     }
 
     @Test
@@ -236,7 +256,7 @@ public class ComptabiliteManagerImplTest {
             // THEN
             // expected FunctionalException (voir conf du test)
 
-            assertThat(ex.getMessage()).isEqualTo("Une autre écriture comptable existe déjà avec la même référence.");
+            assertThat(ex.getMessage()).isEqualTo("Une autre écriture comptable existe déjà avec la même référence.RG6");
             throw ex;
         }
 
@@ -253,7 +273,7 @@ public class ComptabiliteManagerImplTest {
     public ComptabiliteManagerImpl mockedManager;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp2() throws Exception {
         MockitoAnnotations.initMocks(this);
         mockedManager.setDaoProxy(daoProxyMock);
         when(daoProxyMock.getComptabiliteDao()).thenReturn(comptabiliteDaoMock);
@@ -345,7 +365,7 @@ public class ComptabiliteManagerImplTest {
         try {
             mockedManager.checkEcritureComptable(vEcriture);
         } catch (FunctionalException ex) {
-            assertThat(ex.getMessage()).isEqualTo("Une autre écriture comptable existe déjà avec la même référence.");
+            assertThat(ex.getMessage()).isEqualTo("Une autre écriture comptable existe déjà avec la même référence.RG6");
             throw ex;
         }
 
