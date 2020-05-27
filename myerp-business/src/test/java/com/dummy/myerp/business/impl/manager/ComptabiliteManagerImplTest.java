@@ -77,7 +77,7 @@ public class ComptabiliteManagerImplTest {
 
         // THEN
         // expected FunctionalException (voir conf du test)
-        
+
     }
 
     @Test(expected = FunctionalException.class)
