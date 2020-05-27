@@ -344,13 +344,12 @@ public class ComptabiliteManagerImplTest {
         //WHEN
         try {
             mockedManager.checkEcritureComptable(vEcriture);
-        }catch (FunctionalException ex) {
+        } catch (FunctionalException ex) {
             assertThat(ex.getMessage()).isEqualTo("Une autre écriture comptable existe déjà avec la même référence.");
             throw ex;
         }
 
     }
-
 
 
 }
