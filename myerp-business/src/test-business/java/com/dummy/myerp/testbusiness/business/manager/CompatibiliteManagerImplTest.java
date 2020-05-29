@@ -91,7 +91,7 @@ public class CompatibiliteManagerImplTest extends BusinessTestCase {
 
         //GIVEN
         EcritureComptable vERef = dao.getEcritureComptable(-3);
-        String nouveauLibelle = "Libéllé ttt du " + new Date();
+        String nouveauLibelle = "Libéllé du " + new Date();
         vERef.setLibelle(nouveauLibelle);
 
         //WHEN

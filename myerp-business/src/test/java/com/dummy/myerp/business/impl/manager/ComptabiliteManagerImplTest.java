@@ -87,7 +87,7 @@ public class ComptabiliteManagerImplTest {
         EcritureComptable vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
-        vEcritureComptable.setLibelle("Libelle");
+       // vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, null,
                 new BigDecimal(123)));
