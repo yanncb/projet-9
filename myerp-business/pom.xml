@@ -16,7 +16,6 @@
 
     <!-- ===== Maven ===== -->
     <artifactId>myerp-business</artifactId>
-
     <!-- ===== General information ===== -->
     <name>${project.artifactId}</name>
 
@@ -37,7 +36,7 @@
     <!-- Properties -->
     <!-- =============================================================== -->
     <properties>
-        <dep.junit.version>5.6.2</dep.junit.version>
+        <dep.junit.version>4.13</dep.junit.version>
     </properties>
 
     <!-- =============================================================== -->
@@ -95,18 +94,7 @@
             <version>4.13</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-        <dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.3</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core -->
-        <dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>org.jacoco.core</artifactId>
-            <version>0.8.3</version>
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
         <dependency>
@@ -125,8 +113,6 @@
         </dependency>
 
 
-
-
         <!-- ===== Database (pour les tests) ===== -->
         <!-- Pool de connexion -->
         <dependency>
@@ -140,18 +126,18 @@
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${dep.junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${dep.junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+        <!--       <dependency>            -->
+        <!--           <groupId>org.junit.jupiter</groupId>            -->
+        <!--           <artifactId>junit-jupiter</artifactId>          -->
+        <!--           <version>5.6.2</version>            -->
+        <!--           <scope>test</scope>         -->
+        <!--       </dependency>           -->
+        <!--       <dependency>            -->
+        <!--           <groupId>org.junit.jupiter</groupId>            -->
+        <!--           <artifactId>junit-jupiter-api</artifactId>          -->
+        <!--           <version>5.6.2</version>            -->
+        <!--           <scope>test</scope>         -->
+        <!--       </dependency>           -->
 
     </dependencies>
 
@@ -160,42 +146,42 @@
     <!-- Profiles -->
     <!-- =============================================================== -->
     <profiles>
-        <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
-        <profile>
-            <id>test-business</id>
-            <build>
-                <plugins>
-                    <!-- Ajout du répertoire src/test-business/java en tant que source de test du module -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-test-source</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>add-test-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>src/test-business/java</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+        <!--        &lt;!&ndash; Profile utilisé pour lancer les tests d'intégration de la couche Business &ndash;&gt;-->
+        <!--        <profile>-->
+        <!--            <id>test-business</id>-->
+        <!--            <build>-->
+        <!--                <plugins>-->
+        <!--                    &lt;!&ndash; Ajout du répertoire src/test-business/java en tant que source de test du module &ndash;&gt;-->
+        <!--                    <plugin>-->
+        <!--                        <groupId>org.codehaus.mojo</groupId>-->
+        <!--                        <artifactId>build-helper-maven-plugin</artifactId>-->
+        <!--                        <executions>-->
+        <!--                            <execution>-->
+        <!--                                <id>add-test-source</id>-->
+        <!--                                <phase>generate-test-sources</phase>-->
+        <!--                                <goals>-->
+        <!--                                    <goal>add-test-source</goal>-->
+        <!--                                </goals>-->
+        <!--                                <configuration>-->
+        <!--                                    <sources>-->
+        <!--                                        <source>src/test-business/java</source>-->
+        <!--                                    </sources>-->
+        <!--                                </configuration>-->
+        <!--                            </execution>-->
+        <!--                        </executions>-->
+        <!--                    </plugin>-->
+        <!--                </plugins>-->
 
-                <testResources>
-                    <testResource>
-                        <directory>src/test/resources</directory>
-                    </testResource>
-                    <testResource>
-                        <directory>src/test-business/resources</directory>
-                    </testResource>
-                </testResources>
-            </build>
-        </profile>
+        <!--                <testResources>-->
+        <!--                    <testResource>-->
+        <!--                        <directory>src/test/resources</directory>-->
+        <!--                    </testResource>-->
+        <!--                    <testResource>-->
+        <!--                        <directory>src/test-business/resources</directory>-->
+        <!--                    </testResource>-->
+        <!--                </testResources>-->
+        <!--            </build>-->
+        <!--        </profile>-->
     </profiles>
 
 
@@ -203,38 +189,7 @@
     <!-- Build -->
     <!-- =============================================================== -->
     <build>
-        <pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <!-- attached to Maven test phase -->
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <configuration>
-                    <forkCount>3</forkCount>
-                    <reuseForks>true</reuseForks>
-                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
-                </configuration>
-            </plugin>
             <!-- Ajout du répertoire src/test-business/java en tant que source de test du module -->
 
             <plugin>
@@ -256,7 +211,6 @@
                 </executions>
             </plugin>
         </plugins>
-        </pluginManagement>
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>

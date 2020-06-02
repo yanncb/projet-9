@@ -33,22 +33,9 @@ public class ComptabiliteManagerImplTest {
     /**
      * Logger
      **/
-    private static Logger logger;
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
     private static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-
-    @BeforeClass
-    public static void  setUp() throws Exception {
-        logger = LoggerFactory.getLogger(ComptabiliteManagerImplTest.class);
-        String nomDeMaClasse = ComptabiliteManagerImpl.class.getSimpleName();
-        logger.info(() -> "Début des tests unitaires pour la classe " + ComptabiliteManagerImpl.class.getSimpleName() + ".");
-
-    }
-    @AfterClass
-    public static void tearDown() throws Exception {
-        logger.info(() ->"Fin des tests unitaires.");
-    }
 
     @Test
     public void checkEcritureComptableUnit() throws Exception {
@@ -87,7 +74,7 @@ public class ComptabiliteManagerImplTest {
         EcritureComptable vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(SIMPLE_DATE_FORMAT.parse("01/01/2020"));
-       // vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, null,
                 new BigDecimal(123)));
