@@ -16,5 +16,12 @@ public class CompteComptableTest {
         Assert.assertNull( CompteComptable.getByNumero(compteComptableList,11223345));
     }
 
+    @Test
+    public void getByLibelle(){
+        List<CompteComptable> compteComptableList = new ArrayList<>();
+        compteComptableList.add(new CompteComptable(123123, "compte courant"));
+        Assert.assertNotNull(CompteComptable.getByLibelle(compteComptableList,"compte courant"));
+    }
+
 
 }

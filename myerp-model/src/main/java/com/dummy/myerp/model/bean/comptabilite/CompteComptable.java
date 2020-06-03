@@ -96,4 +96,15 @@ public class CompteComptable {
         }
         return vRetour;
     }
+
+    public static CompteComptable getByLibelle(List<? extends CompteComptable> pList, String pLibelle) {
+        CompteComptable vRetour = null;
+        for (CompteComptable vBean : pList) {
+            if (vBean != null && Objects.equals(vBean.getLibelle(), pLibelle)) {
+                vRetour = vBean;
+                break;
+            }
+        }
+        return vRetour;
+    }
 }
