@@ -1,11 +1,11 @@
 language: java
 
-      addons:
-        sonarcloud:
-          organization: "https-github-com-yanncb"
-          token:
-            secure: "6972d88da70bff63384a311d143aa020b36e065e" # encrypted value of your token
-
-      script:
-        # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-        - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install 
+#      addons:
+#        sonarcloud:
+#          organization: "https-github-com-yanncb"
+#          token:
+#            secure: "6972d88da70bff63384a311d143aa020b36e065e" # encrypted value of your token
+#
+#      script:
+#        # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+#        - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
