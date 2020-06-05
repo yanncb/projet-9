@@ -7,4 +7,8 @@ before_install:
   - cp myerp-consumer/src/main/resources/com/dummy/myerp/consumer/database.properties.travis myerp-consumer/src/main/resources/com/dummy/myerp/consumer/database.properties
   - psql -c 'create database db_myerp;' -U postgres
   - psql -d db_myerp -U postgres -a -f initDatabase/01_create_schema.sql
+  - psql -d db_myerp -U postgres -a -f initDatabase/02_create_tables.sql
+  - psql -d db_myerp -U postgres -a -f initDatabase/21_insert_data_demo.sql
+
+
 
