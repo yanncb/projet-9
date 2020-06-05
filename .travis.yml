@@ -1,7 +1,7 @@
 language: java
 
 services:
-  - postgressql
+  - postgresql
 
 env:
   global:
