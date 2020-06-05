@@ -8,6 +8,3 @@ before_install:
   - psql -c 'create database db_myerp;' -U postgres
   - psql -h localhost -d db_myerp -U postgres -p 5433 -a -q -f initDatabase/01_create_schema.sql
 
-env:
-  global:
-    - PGPORT=5433
