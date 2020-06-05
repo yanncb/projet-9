@@ -1,5 +1,8 @@
 language: java
 
+services:
+  - postgressql
+
 env:
   global:
     - PGPORT=9032
