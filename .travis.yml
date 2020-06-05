@@ -8,7 +8,6 @@ before_script:
   - psql -c 'create database db_myerp;' -U postgres
   - psql -h localhost -d db_myerp -U postgres -p 9032 -a -q -f initDatabase/01_create_schema.sql
 
-
 env:
   global:
     - PGPORT=9032
