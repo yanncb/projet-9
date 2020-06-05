@@ -5,4 +5,4 @@ services:
 
 env:
   global:
-    - PGPORT=9032
+    - PGPORT=5432
