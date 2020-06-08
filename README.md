@@ -52,22 +52,21 @@ Lancement commande maven :
 
 Lancement avec TravisCI 
 
+- Le fichier de configuration est a la racine du projet travis.yml
+
 -Se lance automatiquement apres un commit.(lié à github)
 
 Pour le taux de coverage :
 
 - soit par votre navigateur en ouvrant les fichiers :
     - myerp-business/target/test-results/coverage/jacoco/index.html
-    - myerp-model/target/site/jacoco/index.html
-- soit avec jenkins
+    - myerp-model/target/test-results/coverage/jacoco/index.html
 
 Correctifs principaux
 
     Absence de la configuration de la dataSource
-    Dans l'entité EcritureComptable, correction des méthodes getTotalCredit() && getTotalDebit() sur le format de retour 2 chiffres après la virgule
-    Dans l'entité EcritureComptable, correction de la méthode getTotalCredit() qui accédait à la méthode getDebit() au lieu de getCredit()
-    Dans l'entité EcritureComptable, correction de l'expression régulière qui était erronée
-    Dans le fichier sqlContext.xml, corriger la propriété SQLinsertListLigneEcritureComptable. Il manquait une virgule dans le INSERT entre les colonnes debit et credit
-    Dans la classe ComptabiliteManagerImpl, correction de la méthode updateEcritureComptable(). Ajouter la ligne this.checkEcritureComptable(pEcritureComptable); en haut afin de vérifier que la référence de l'écriture comptable respecte les règles de comptabilité 5 et 6
-    Dans la classe SpringRegistry de la couche business, modification de la variable CONTEXT_APPLI_LOCATION afin d'adapter le chemin d'accès au fichier bootstrapContext.xml qui est un conteneur Spring IoC, dans lequel on importe le businessContext.xml, consumerContext.xml et le datasourceContext.xml qui va redéfinir le bean dataSourceMYERP pour les tests
-    Correction de divers code smells indiqués par le plugin SonarLint de IntelliJ et par SonarQube
+    - Dans l'entité EcritureComptable, correction des méthodes getTotalCredit() && getTotalDebit() sur le format de retour 2 chiffres après la virgule
+    - Dans l'entité EcritureComptable, correction de la méthode getTotalCredit() qui accédait à la méthode getDebit() au lieu de getCredit()
+    - Dans le fichier sqlContext.xml, corriger la propriété SQLinsertListLigneEcritureComptable. Il manquait une virgule dans le INSERT entre les colonnes debit et credit
+    - Dans la classe ComptabiliteManagerImpl, correction de la méthode updateEcritureComptable(). Ajouter la ligne this.checkEcritureComptable(pEcritureComptable); en haut afin de vérifier que la référence de l'écriture comptable respecte les règles de comptabilité 5 et 6
+    - Dans la classe EcritureComptable le regexp n'etait pas bon.
